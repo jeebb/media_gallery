@@ -225,8 +225,12 @@ public class SwiftMediaGalleryPlugin: NSObject, FlutterPlugin {
                options: options,
                resultHandler: {
                    (image: UIImage?, info) in
-                let bytes = image!.jpegData(compressionQuality: CGFloat(70));
-                completion(bytes, nil);
+                  do {
+                      let bytes = image!.jpegData(compressionQuality: CGFloat(70));
+                      completion(bytes, nil);
+                  } catch let error {
+                      completion(nil, nil);
+                  }
            })
 
         }
