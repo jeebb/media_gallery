@@ -199,7 +199,7 @@ public class SwiftMediaGalleryPlugin: NSObject, FlutterPlugin {
     }
     
     private func getMediaThumbnail(mediaId: String, width: NSNumber?, height: NSNumber?, highQuality: Bool?, completion: @escaping (Data?, Error?)->()) {
-        
+      do {
         let manager = PHImageManager.default()
             
         let fetchOptions = PHFetchOptions()
@@ -228,12 +228,15 @@ public class SwiftMediaGalleryPlugin: NSObject, FlutterPlugin {
                   do {
                       let bytes = image!.jpegData(compressionQuality: CGFloat(70));
                       completion(bytes, nil);
-                  } catch let error {
+                  } catch {
                       completion(nil, nil);
                   }
            })
 
         }
+      } catch {
+        completion(nil, nil);
+      }
     }
     
     private func getCollectionThumbnail(collectionId: String, width: Int?, height: Int?, highQuality: Bool?, completion: @escaping (Data?, Error?)->()) {
